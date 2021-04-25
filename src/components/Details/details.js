@@ -33,7 +33,7 @@ const Details = () => {
                     <div style={{ width: 400 }}>
                         <Typography className={classes.recurringExpensesText} gutterBottom>RECURRING EXPENSES</Typography>
                         <Grid container spacing={2}>
-                            {[1, 2, 3, 4, 5, 6, 4, 4].map(() => <Grid item xs={3} >
+                            {[1, 2, 3, 4, 5, 6, 4, 4].map(() => <Grid key={Math.random()} item xs={3} >
                                 <div className={classes.icon}></div>
                             </Grid>)}
                         </Grid>
@@ -44,7 +44,7 @@ const Details = () => {
                         <Typography className={classes.recurringExpensesText} style={{ paddingLeft: '2rem' }}>USERS LIKE Samuel Ocran</Typography>
 
                         <List dense className={classes.list}>
-                            {[1, 2, 3,].map((n) => <ListItem>
+                            {[1, 2, 3,].map((n) => <ListItem key={Math.random()}>
                                 <ListItemAvatar>
                                     <Avatar alt='image' src='https://randomuser.me/api/portraits/men/33.jpg' />
                                 </ListItemAvatar>

@@ -1,6 +1,8 @@
+import { useEffect, useContext } from 'react'
 import Details from './components/Details/details';
 import Sidebar from './components/Sidebar/sidebar';
 import { AppBar, makeStyles } from '@material-ui/core';
+import { AppContext } from './context/AppContext';
 
 const useStyles = makeStyles(() => ({
   appbar: {
@@ -14,6 +16,16 @@ const useStyles = makeStyles(() => ({
 }))
 
 function App() {
+  const { getUsers, getTransactions } = useContext(AppContext)
+
+  //fetch users when the app mounts
+  useEffect(() => {
+    getUsers();
+    getTransactions();
+    // eslint-disable-next-line
+  }, [])
+
+
   const classes = useStyles()
   return (
     < div style={{ height: '100vh' }}>
