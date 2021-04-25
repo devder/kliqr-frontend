@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { List, ListItem, ListItemAvatar, Avatar, ListItemText, ListItemSecondaryAction, Typography, Container, Toolbar }
+import { List, ListItem, ListItemAvatar, Avatar, ListItemText, ListItemSecondaryAction, Typography, Container, IconButton, Toolbar }
     from '@material-ui/core';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import useStyles from './styles';
@@ -15,10 +15,10 @@ function getNumberOfUserTransactions(id, arr) {
 const Sidebar = () => {
     const classes = useStyles()
 
-    const { users, transactions } = useContext(AppContext)
+    const { users, transactions, setActiveUser, activeUser } = useContext(AppContext)
 
+    //get the number of transactions for each user and store in array
     const numberOfTransactionsArray = users.map(user => getNumberOfUserTransactions(user.id, transactions));
-    console.log(numberOfTransactionsArray);
 
     const formatDate = date => {
         let formattedDate = date.replace(/-|\s/g, "")
@@ -34,9 +34,12 @@ const Sidebar = () => {
                     USERS
             </Typography>
             </Container>
+
+            {/* users scrollable list */}
             <List dense className={classes.list}>
-                {users.length > 0 ? users.map((user, i) => <div key={user.id} style={{ marginBottp: '15px 0' }}>
-                    <ListItem>
+                {users.length > 0 ? users.map((user, i) => <div key={user.id} className={classes.listItem}>
+                    {/* each user */}
+                    <ListItem style={{ backgroundColor: activeUser?.id === user.id && 'rgba(231, 236, 237, 0.5)' }}>
                         <ListItemAvatar>
                             <Avatar alt='image' src={user.avatar} className={classes.avatar} />
                         </ListItemAvatar>
@@ -44,8 +47,10 @@ const Sidebar = () => {
                             <Typography className={classes.userName} gutterBottom>{`${user.first_name} ${user.last_name}`}</Typography>
                             <Typography className={classes.userTx}>{`${numberOfTransactionsArray[i]} Transactions • Joined ${formatDate(user.created_at)}`}</Typography>
                         </ListItemText>
-                        <ListItemSecondaryAction>
-                            <ChevronRightIcon />
+                        <ListItemSecondaryAction >
+                            <IconButton onClick={() => setActiveUser(user.id)} >
+                                <ChevronRightIcon />
+                            </IconButton>
                         </ListItemSecondaryAction>
                     </ListItem>
                 </div>

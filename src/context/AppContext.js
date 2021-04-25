@@ -3,11 +3,12 @@ import reducer from '../reducer/appReducer';
 import axios from 'axios'
 import { env } from '../config';
 
-
+//for a bigger app, I wouldn't set active user in the context but in the local state
 const initialState = {
     users: [],
+    activeUser: {},
     transactions: [],
-    errorMessage: ''
+    errorMessage: '',
 }
 
 const AppContext = createContext()
@@ -41,8 +42,25 @@ function AppProvider({ children }) {
         }
     }
 
+    //fetchd deatils for a particular user
+    const setActiveUser = async (id) => {
+        try {
+            const response = await axios.get(`${env.server}/api/users/${id}`)
+            if (response.status === 200) {
+                dispatch({ type: 'SET_ACTIVE_USER', payload: response.data })
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
-        <AppContext.Provider value={{ users: state.users, transactions: state.transactions, getUsers, getTransactions }}>
+        <AppContext.Provider value={{
+            users: state.users,
+            transactions: state.transactions,
+            activeUser: state.activeUser,
+            getUsers, getTransactions, setActiveUser
+        }}>
             {children}
         </AppContext.Provider>
     )

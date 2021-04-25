@@ -43,5 +43,22 @@ export default makeStyles(() => ({
         lineHeight: '14px',
         letterSpacing: 0,
     },
-    avatar: { width: 45, height: 45, }
+    avatar: { width: 45, height: 45, },
+    iconBtn: {
+        display: 'none',
+        '&:hover': {
+            display: 'block'
+        }
+    },
+    listItem: {
+        '& button': {
+            opacity: 0
+        },
+        '&:hover': {
+            '& button': {
+                opacity: 1
+            },
+        }
+
+    }
 }))

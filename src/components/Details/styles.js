@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core'
 
 
 export default makeStyles((theme) => ({
-    root: { display: 'flex', flexGrow: 1, flexDirection: 'column', height: '100vh' },
+    root: { display: 'flex', flexGrow: 1, flexDirection: 'column', height: '100vh', overflow: 'auto' },
     container: {
         display: 'flex',
         flexDirection: 'column',
@@ -38,7 +38,7 @@ export default makeStyles((theme) => ({
         letterSpacing: 0
     },
     paper: {
-        width: '150px',
+        width: '180px',
         margin: theme.spacing(1),
         padding: '24px 16px',
         borderRadius: 11
