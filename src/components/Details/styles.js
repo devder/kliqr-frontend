@@ -70,7 +70,6 @@ export default makeStyles((theme) => ({
         paddingBottom: 80,
         display: 'flex',
         justifyContent: 'space-evenly',
-        alignItems: 'center',
         width: '100%'
 
     },
@@ -85,12 +84,19 @@ export default makeStyles((theme) => ({
         letterSpacing: 0,
         color: '#000000C2',
     },
+    noRecurringExpensesText: {
+        paddingLeft: theme.spacing(2),
+        paddingBottom: theme.spacing(2),
+        fontFamily: 'Manrope',
+        fontSize: 14,
+        fontStyle: 'italic',
+        fontWeight: 700,
+        lineHeight: '20px',
+        letterSpacing: 0,
+        color: '#000000C2',
+    },
     icon: {
-        width: 63, height: 45,
-        background: "#A7C5EB url('https://api.kliqr.com/images/icons/tags/gotv.png') no-repeat center",
-        backgroundSize: '25px 25px',
-        borderRadius: 11, padding: theme.spacing(1),
-        fontSize: 50
+
     },
     userName: {
         fontFamily: 'Manrope',

@@ -26,6 +26,10 @@ const Sidebar = () => {
         return moment(formattedDate.substr(0, 8), "YYYYMMDD").fromNow();
     }
 
+    const handleSetActiveUser = id => {
+        setActiveUser(id)
+    }
+
     return (
         <div className={classes.root}>
             <Toolbar />
@@ -34,7 +38,6 @@ const Sidebar = () => {
                     USERS
             </Typography>
             </Container>
-
             {/* users scrollable list */}
             <List dense className={classes.list}>
                 {users.length > 0 ? users.map((user, i) => <div key={user.id} className={classes.listItem}>
@@ -48,7 +51,7 @@ const Sidebar = () => {
                             <Typography className={classes.userTx}>{`${numberOfTransactionsArray[i]} Transactions • Joined ${formatDate(user.created_at)}`}</Typography>
                         </ListItemText>
                         <ListItemSecondaryAction >
-                            <IconButton onClick={() => setActiveUser(user.id)} >
+                            <IconButton onClick={() => handleSetActiveUser(user.id)} >
                                 <ChevronRightIcon />
                             </IconButton>
                         </ListItemSecondaryAction>

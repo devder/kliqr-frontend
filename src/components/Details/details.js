@@ -9,7 +9,7 @@ import moment from 'moment'
 const Details = () => {
     const classes = useStyles()
 
-    const { activeUser, users, setActiveUser } = useContext(AppContext)
+    const { activeUser, users, setActiveUser, isLoading } = useContext(AppContext)
 
     useEffect(() => {
         if (users.length > 0) {
@@ -24,7 +24,7 @@ const Details = () => {
         return moment(formattedDate.substr(0, 8), "YYYYMMDD").fromNow();
     }
 
-    if (activeUser.id === undefined) return <div className={classes.root}>
+    if (isLoading || activeUser.id === undefined) return <div className={classes.root}>
         <Toolbar />
         <LinearProgress color="secondary" />
 
@@ -93,11 +93,25 @@ const Details = () => {
                     <div className={classes.footer}>
                         <div style={{ width: 400 }}>
                             <Typography className={classes.recurringExpensesText} gutterBottom>RECURRING EXPENSES</Typography>
-                            <Grid container spacing={2}>
-                                {[1, 2, 3, 4,].map(() => <Grid key={Math.random()} item xs={3} >
-                                    <div className={classes.icon}></div>
-                                </Grid>)}
-                            </Grid>
+                            <Grow
+                                in={activeUser.id !== undefined}
+                                style={{ transformOrigin: '0 0 0' }}
+                                {...(activeUser.id !== undefined ? { timeout: 1000 } : {})}
+                            >
+                                <Grid container spacing={2}>
+                                    {activeUser.expenseTrendIcons.length < 1 ?
+                                        <Typography className={classes.noRecurringExpensesText}>{`${activeUser.first_name} has no recurring expenses`}</Typography> :
+                                        activeUser.expenseTrendIcons.map((icon) => <Grid key={Math.random()} item xs={3} >
+                                            <div className={classes.icon} style={{
+                                                background: `#A7C5EB url('${icon.icon_url}') no-repeat center`,
+                                                width: 63, height: 45,
+                                                backgroundSize: '25px 25px',
+                                                borderRadius: 11, padding: 8,
+                                                fontSize: 50
+                                            }} />
+                                        </Grid>)}
+                                </Grid>
+                            </Grow>
                         </div>
 
 
@@ -106,17 +120,26 @@ const Details = () => {
                                 {`USERS LIKE  "${activeUser.first_name} ${activeUser.last_name}"`}
                             </Typography>
 
-                            <List dense className={classes.list}>
-                                {[1, 2, 3,].map((n) => <ListItem key={Math.random()}>
-                                    <ListItemAvatar>
-                                        <Avatar alt='image' src='https://randomuser.me/api/portraits/men/33.jpg' />
-                                    </ListItemAvatar>
-                                    <ListItemText disableTypography>
-                                        <Typography className={classes.userName} gutterBottom>Jude Agboola</Typography>
-                                        <Typography className={classes.userTx}>300 Transactions • Joined 2 months ago</Typography>
-                                    </ListItemText>
-                                </ListItem>)}
-                            </List>
+                            {
+                                activeUser.similarUsers.length < 2 ?
+                                    <Typography className={classes.noRecurringExpensesText} style={{ paddingLeft: 30 }}>
+                                        {`${activeUser.first_name} has no similar users`}</Typography> :
+                                    <List dense className={classes.list}>
+                                        {activeUser.similarUsers.map((similarUser) => similarUser.user[0].id === activeUser.id ? null :
+                                            <ListItem key={Math.random()}>
+                                                <ListItemAvatar>
+                                                    <Avatar alt='image' src={similarUser.user[0].avatar} />
+                                                </ListItemAvatar>
+                                                <ListItemText disableTypography>
+                                                    <Typography className={classes.userName} gutterBottom>{`${similarUser.user[0].first_name} ${similarUser.user[0].last_name}`}</Typography>
+                                                    <Typography className={classes.userTx}>{
+                                                        `${similarUser.totalCreditDebit[0].total_transactions} Transactions • Joined ${formatDate(similarUser.user[0].created_at)}`}
+                                                    </Typography>
+                                                </ListItemText>
+                                            </ListItem>
+                                        )}
+                                    </List>
+                            }
                         </div>
 
                     </div>

@@ -15,6 +15,7 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
+//for simplicity, no routes, just one page
 function App() {
   const { getUsers, getTransactions } = useContext(AppContext)
 
